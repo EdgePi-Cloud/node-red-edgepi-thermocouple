@@ -1,0 +1,22 @@
+{
+  "name": "node-red-edgepi-thermocouple",
+  "version": "1.0.0",
+  "description": "a node for demonstrating use of Python scripts and libraries for implementing functionality. This node uses a Python script to interact with the RTU Thermocouple.",
+  "main": "edgepi-thermocouple.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osensa/node-red-edgepi-thermocouple.git"
+  },
+  "author": "flavius-t",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/osensa/node-red-edgepi-thermocouple/issues"
+  },
+  "homepage": "https://github.com/osensa/node-red-edgepi-thermocouple#readme",
+  "devDependencies": {
+    "node-red": "^2.2.2"
+  }
+}
