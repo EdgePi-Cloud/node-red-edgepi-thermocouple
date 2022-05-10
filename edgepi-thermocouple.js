@@ -1,7 +1,7 @@
 module.exports = function(RED) {
     const spawn = require('child_process').spawn;
 
-    // file_path to edgepi-thermocouple bash script
+    // file_path to edgepi-thermocouple bash script for passing commands to Python script
     const executablePath = __dirname + '/edgepi-thermocouple'
 
     sampleCommand = 2;
@@ -12,16 +12,16 @@ module.exports = function(RED) {
 
         function inputlistener(msg, send, done) {
             if (node.child != null) {
-                // send input to child process (Py script)
+                // send input to child process using stdin (Py script)
                 node.child.stdin.write(sampleCommand+"\n", () => {
                     if (done) { done(); }
                 });
-                node.status({fill:"green",shape:"ring",text:"connected to child"});
+                node.status({fill:"green", shape:"ring", text:"connected to child"});
             }
             else {
                 // logs error to Node-RED's console.
                 node.error(RED._("edgepi-thermocouple.errors.pythoncommandnotfound"), msg);
-                node.status({fill:"red",shape:"ring",text:"disconnected from child"});
+                node.status({fill:"red", shape:"ring", text:"disconnected from child"});
             }
         }
 
@@ -35,6 +35,7 @@ module.exports = function(RED) {
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
             node.log("out: " + data + " :");
+            // to-do: add logic for processing output temperature reading
         });
 
         node.child.stderr.on('data', function (data) {
