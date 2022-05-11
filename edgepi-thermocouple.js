@@ -1,3 +1,5 @@
+const { execPath } = require('process');
+
 module.exports = function(RED) {
     const spawn = require('child_process').spawn;
 
@@ -16,7 +18,7 @@ module.exports = function(RED) {
                 node.child.stdin.write(sampleCommand+"\n", () => {
                     if (done) { done(); }
                 });
-                node.status({fill:"green", shape:"ring", text:"connected to child"});
+                node.status({fill:"green", shape:"dot", text:"input to child sent"});
             }
             else {
                 // logs error to Node-RED's console.
@@ -27,7 +29,17 @@ module.exports = function(RED) {
 
         // creates child process instance which will run command located at executablePath
         // with the argument 2 (single-shot sample).
-        node.child = spawn(executablePath, [sampleCommand]);
+        node.child;
+        try {
+            node.child = spawn(executablePath, [sampleCommand]);
+        }
+        catch (err) {
+            node.log("Failed to spawn child process");
+        }
+        
+        if (node.child) {
+            node.status({fill:"green", shape:"ring", text:"connected to child"})
+        }
 
         // called on input to this node
         node.on("input", inputlistener);
