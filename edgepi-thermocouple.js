@@ -4,8 +4,6 @@ module.exports = function(RED) {
     // file_path to edgepi-thermocouple bash script for passing commands to Python script
     const executablePath = __dirname + '/edgepi-thermocouple'
 
-    sampleCommand = 2;
-
     function ThermocoupleNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
@@ -28,6 +26,7 @@ module.exports = function(RED) {
 
         // creates child process instance which will run command located at executablePath
         // with the argument 2 (single-shot sample).
+        sampleCommand = 2;
         node.child = spawn(executablePath, [sampleCommand]);
 
         // to-do: handle spawn error
