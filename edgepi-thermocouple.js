@@ -15,12 +15,12 @@ module.exports = function(RED) {
                     if (done) { done(); }
                 });
                 node.status({fill:"green", shape:"dot", text:"input to child sent"});
-                node.log(`edgepi-thermocouple: sent input to child: ${msg.payload}`);
+                node.log(`edgepi-thermocouple: input to parent: ${msg.payload}`);
             }
             else {
                 // logs error to Node-RED's console.
                 node.status({fill:"red", shape:"ring", text:"disconnected from child"});
-                node.error(RED._("edgepi-thermocouple:error:"), msg);
+                node.error(RED._("edgepi-thermocouple:error:child.disconnected"), msg);
             }
         }
 
@@ -44,20 +44,26 @@ module.exports = function(RED) {
         });
 
         node.child.stderr.on('data', function (data) {
-            node.error(RED._("edgepi-thermocouple:error:child error:"), data);
+            // Py logger prints to stderr
+            if (data.includes("INFO"))
+                node.log(data)
+            else
+                node.error(RED._(`edgepi-thermocouple:error:childprocess-stderr: ${data}`));
         });
 
         // handle exit from child process
         node.child.on("close", function(code) {
             node.child = null;
-            node.status({fill:"grey",shape:"ring",text:"child process closed."});
             if (node.finished) {
                 node.finished();
                 node.log(`edgepi-thermocouple: child process exit code: ${code}`);
+                node.status({fill:"grey",shape:"ring",text:"child process closed."});
             }
             else {
-                node.status({fill:"red",shape:"ring",text:"parent process stopped"});
-                node.error(RED._(`edgepi-thermocouple:error: ${code}`));
+                node.status({fill:"red",shape:"ring",text:"child process stopped before parent"});
+                node.log(`edgepi-thermocouple: child process exit code: ${code}`);
+                node.warn();(RED._(`edgepi-thermocouple:warning: childprocess disconnected 
+                with exitcode: ${code}`));
             }
         });
 
