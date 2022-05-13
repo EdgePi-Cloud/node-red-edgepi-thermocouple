@@ -1,0 +1,294 @@
+[
+    {
+        "id": "2917deb43ef3170b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0703ac843d2b5128",
+        "type": "inject",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 140,
+        "wires": [
+            [
+                "582cecedb378d9b0"
+            ]
+        ]
+    },
+    {
+        "id": "582cecedb378d9b0",
+        "type": "edgepi-thermocouple-node",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "x": 290,
+        "y": 220,
+        "wires": [
+            [
+                "9eed10d0690bc930",
+                "be75e983ba76dd09"
+            ]
+        ]
+    },
+    {
+        "id": "d47a3d4c51986a21",
+        "type": "led-trigger-node",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "x": 880,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8a023fcb61a57112",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "LED ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 420,
+        "wires": [
+            [
+                "e3b85b753784c94d"
+            ]
+        ]
+    },
+    {
+        "id": "9eed10d0690bc930",
+        "type": "switch",
+        "z": "2917deb43ef3170b",
+        "name": "Temp >= 23?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "23",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "23",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 230,
+        "y": 480,
+        "wires": [
+            [
+                "8a023fcb61a57112"
+            ],
+            [
+                "f386950b0e388623"
+            ]
+        ]
+    },
+    {
+        "id": "f386950b0e388623",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "LED OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 440,
+        "y": 560,
+        "wires": [
+            [
+                "e3b85b753784c94d"
+            ]
+        ]
+    },
+    {
+        "id": "e3b85b753784c94d",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "SET LED#",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "LED2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 480,
+        "wires": [
+            [
+                "d47a3d4c51986a21",
+                "6fbbdefdce6e689a",
+                "3358f05996e1adc9"
+            ]
+        ]
+    },
+    {
+        "id": "6fbbdefdce6e689a",
+        "type": "debug",
+        "z": "2917deb43ef3170b",
+        "name": "debug msg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "be75e983ba76dd09",
+        "type": "ui_gauge",
+        "z": "2917deb43ef3170b",
+        "name": "Thermocouple Reading Gauge",
+        "group": "41f64ff718e7bbd1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Thermocouple Reading",
+        "label": "Celsius",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "30",
+        "colors": [
+            "#00ff00",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "15",
+        "seg2": "25",
+        "className": "",
+        "x": 610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3358f05996e1adc9",
+        "type": "function",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "func": "msg.payload === 1 ? status = \"ON\" : status = \"OFF\";\nmsg.status = msg.topic + \": \" + status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 320,
+        "wires": [
+            [
+                "df98bda01cc61c4e"
+            ]
+        ]
+    },
+    {
+        "id": "df98bda01cc61c4e",
+        "type": "ui_template",
+        "z": "2917deb43ef3170b",
+        "group": "9dc798b2378888ec",
+        "name": "LED Status",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.status\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 790,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "41f64ff718e7bbd1",
+        "type": "ui_group",
+        "name": "Thermocouple Reading",
+        "tab": "de95c124a23230c4",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9dc798b2378888ec",
+        "type": "ui_group",
+        "name": "LED Status",
+        "tab": "de95c124a23230c4",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "de95c124a23230c4",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
