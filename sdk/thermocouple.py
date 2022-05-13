@@ -30,7 +30,7 @@ def single_conversion(spi, cs):
     _logger.info(f'Cold Junction Code: {cold_junction_code * (2**-6)}')
     _logger.info(f'Linearized TC Code: {linearized_TC_code * (2**-7)}')
 
-    return cold_junction_code * (2**-6), linearized_TC_code * (2**-7)
+    return linearized_TC_code * (2**-7)
 
 def disable_CJ(spi, cs):
     _logger.info(f'Disabling Cold Junction Sensor')

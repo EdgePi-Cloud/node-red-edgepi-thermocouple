@@ -22,6 +22,10 @@ module.exports = function(RED) {
                 node.status({fill:"red", shape:"ring", text:"disconnected from child"});
                 node.error(RED._("edgepi-thermocouple:error:child.disconnected"), msg);
             }
+            if (node.temperature) {
+                msg.payload = Number(node.temperature);
+                send(msg);
+            }
         }
 
         // creates child process instance which will run command located at executablePath
@@ -39,8 +43,9 @@ module.exports = function(RED) {
 
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
+            // data is an arrayBuffer object
+            node.temperature = data.toString()
             node.log(`edgepi-thermocouple: child output: ${data}`);
-            // to-do: add logic for processing output temperature reading
         });
 
         node.child.stderr.on('data', function (data) {
