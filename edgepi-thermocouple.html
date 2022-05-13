@@ -1,13 +1,13 @@
 <script type="text/javascript">
     RED.nodes.registerType('edgepi-thermocouple-node',{
-        category: 'function',
+        category: 'Osensa EdgePi',
         color: '#a6bbcf',
         defaults: {
             name: { value:"" },
         },
         inputs:1,
         outputs:1,
-        icon: "file.png",
+        icon: "font-awesome/fa-thermometer-2",
         label: function() {
             return this.name||"thermocouple-node";
         }
