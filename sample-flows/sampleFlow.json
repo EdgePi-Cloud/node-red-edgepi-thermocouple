@@ -96,18 +96,18 @@
         "id": "9eed10d0690bc930",
         "type": "switch",
         "z": "2917deb43ef3170b",
-        "name": "Temp >= 23.5?",
+        "name": "Temp >= 24.5?",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "gte",
-                "v": "26",
+                "v": "24.5",
                 "vt": "num"
             },
             {
                 "t": "lt",
-                "v": "26",
+                "v": "24.5",
                 "vt": "num"
             }
         ],
@@ -253,7 +253,7 @@
         "order": 1,
         "width": "6",
         "height": "7",
-        "format": "<style>\n    .dot {\n      height: 25px;\n      width: 25px;\n      background-color: red;\n      border-radius: 50%;\n      display: inline-block;\n    }\n    \n    .led-grid {\n        width:100%;\n        text-align:center;\n    }\n\n    .flex-row {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-around;\n        flex-wrap: wrap;\n    }\n    .flex-col {\n        width: 50%;\n    }\n</style>\n\n<div class='led-grid'>\n    <!--<div class='flex-row'>-->\n    <!--    <div class='flex-col' ng-repeat='led in msg.payload'>-->\n    <!--        <p>{{ led.topic }}<p>-->\n    <!--        <span class='dot' style=\"background-color:{{ led.color }}\"></span>-->\n    <!--    </div>-->\n    <!--</div>-->\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 1</p>\n            <span class='dot' style=\"background-color:{{ msg.payload[0].color }}\"></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 2</p>\n            <span class='dot' style=\"background-color:{{ msg.payload[1].color }}\"></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 3</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 4</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 5</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 6</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 7</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 8</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n</div>\n",
+        "format": "<style>\n    .dot {\n      height: 25px;\n      width: 25px;\n      background-color: red;\n      border-radius: 50%;\n      display: inline-block;\n    }\n    \n    .led-grid {\n        width:100%;\n        text-align:center;\n    }\n\n    .flex-row {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-around;\n        flex-wrap: wrap;\n    }\n    .flex-col {\n        width: 50%;\n    }\n</style>\n\n<div class='led-grid'>\n    <!--<div class='flex-row'>-->\n    <!--    <div class='flex-col' ng-repeat='led in msg.payload'>-->\n    <!--        <p>{{ led.topic }}<p>-->\n    <!--        <span class='dot' style=\"background-color:{{ led.color }}\"></span>-->\n    <!--    </div>-->\n    <!--</div>-->\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 1</p>\n            <span class='dot' style=\"background-color:{{ msg.payload[0].color }}\"></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 5</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n        <div class='flex-col'>\n            <p>LED 2</p>\n            <span class='dot' style=\"background-color:{{ msg.payload[1].color }}\"></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 6</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 3</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 7</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 4</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 8</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n</div>\n",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
