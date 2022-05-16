@@ -46,7 +46,8 @@
         "wires": [
             [
                 "9eed10d0690bc930",
-                "be75e983ba76dd09"
+                "be75e983ba76dd09",
+                "21ddbe6933690e43"
             ]
         ]
     },
@@ -55,17 +56,20 @@
         "type": "led-trigger-node",
         "z": "2917deb43ef3170b",
         "name": "",
-        "x": 880,
-        "y": 480,
+        "x": 1220,
+        "y": 560,
         "wires": [
-            []
+            [
+                "3358f05996e1adc9",
+                "6fbbdefdce6e689a"
+            ]
         ]
     },
     {
         "id": "8a023fcb61a57112",
         "type": "change",
         "z": "2917deb43ef3170b",
-        "name": "LED ON",
+        "name": "LED2 ON",
         "rules": [
             {
                 "t": "set",
@@ -80,8 +84,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
-        "y": 420,
+        "x": 760,
+        "y": 480,
         "wires": [
             [
                 "e3b85b753784c94d"
@@ -92,32 +96,34 @@
         "id": "9eed10d0690bc930",
         "type": "switch",
         "z": "2917deb43ef3170b",
-        "name": "Temp >= 23?",
+        "name": "Temp >= 24?",
         "property": "payload",
         "propertyType": "msg",
         "rules": [
             {
                 "t": "gte",
-                "v": "23",
+                "v": "24",
                 "vt": "num"
             },
             {
                 "t": "lt",
-                "v": "23",
+                "v": "24",
                 "vt": "num"
             }
         ],
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 230,
-        "y": 480,
+        "x": 530,
+        "y": 380,
         "wires": [
             [
-                "8a023fcb61a57112"
+                "98d3aad17043fc0e",
+                "f386950b0e388623"
             ],
             [
-                "f386950b0e388623"
+                "a412ad04984d7a17",
+                "8a023fcb61a57112"
             ]
         ]
     },
@@ -125,7 +131,7 @@
         "id": "f386950b0e388623",
         "type": "change",
         "z": "2917deb43ef3170b",
-        "name": "LED OFF",
+        "name": "LED2 OFF",
         "rules": [
             {
                 "t": "set",
@@ -140,8 +146,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 440,
-        "y": 560,
+        "x": 790,
+        "y": 600,
         "wires": [
             [
                 "e3b85b753784c94d"
@@ -152,7 +158,7 @@
         "id": "e3b85b753784c94d",
         "type": "change",
         "z": "2917deb43ef3170b",
-        "name": "SET LED#",
+        "name": "SET LED2",
         "rules": [
             {
                 "t": "set",
@@ -167,13 +173,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 650,
-        "y": 480,
+        "x": 990,
+        "y": 560,
         "wires": [
             [
-                "d47a3d4c51986a21",
-                "6fbbdefdce6e689a",
-                "3358f05996e1adc9"
+                "d47a3d4c51986a21"
             ]
         ]
     },
@@ -190,8 +194,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 870,
-        "y": 400,
+        "x": 1410,
+        "y": 500,
         "wires": []
     },
     {
@@ -217,26 +221,26 @@
         "seg1": "15",
         "seg2": "25",
         "className": "",
-        "x": 610,
-        "y": 160,
+        "x": 570,
+        "y": 40,
         "wires": []
     },
     {
         "id": "3358f05996e1adc9",
         "type": "function",
         "z": "2917deb43ef3170b",
-        "name": "",
-        "func": "msg.payload === 1 ? status = \"ON\" : status = \"OFF\";\nmsg.status = msg.topic + \": \" + status;\nreturn msg;",
+        "name": "LED2 Status",
+        "func": "if (msg.payload === 1)  {\n    status = \"ON\";\n    msg.color = \"lime\";\n} else {\n    status = \"OFF\";\n    msg.color = \"red\";\n}\n\nmsg.status = msg.topic + \": \" + status;\n    \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
-        "y": 320,
+        "x": 1410,
+        "y": 560,
         "wires": [
             [
-                "df98bda01cc61c4e"
+                "e74bee2a089bc1d8"
             ]
         ]
     },
@@ -247,18 +251,198 @@
         "group": "9dc798b2378888ec",
         "name": "LED Status",
         "order": 1,
-        "width": 0,
-        "height": 0,
-        "format": "<div ng-bind-html=\"msg.status\"></div>",
+        "width": "6",
+        "height": "7",
+        "format": "<style>\n    .dot {\n      height: 25px;\n      width: 25px;\n      background-color: red;\n      border-radius: 50%;\n      display: inline-block;\n    }\n    \n    .led-grid {\n        width:100%;\n        text-align:center;\n    }\n\n    .flex-row {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-around;\n        flex-wrap: wrap;\n    }\n    .flex-col {\n        width: 50%;\n    }\n</style>\n\n<div class='led-grid'>\n    <div class='flex-row'>\n        <div class='flex-col' ng-repeat='led in msg.payload'>\n            <p>{{ led.topic }}<p>\n            <span class='dot' style=\"background-color:{{ led.color }}\"></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 3</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 4</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 5</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 6</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n    \n    <div class='flex-row'>\n         <div class='flex-col'>\n            <p>LED 7</p>\n            <span class='dot'></span>\n        </div>\n        \n        <div class='flex-col'>\n            <p>LED 8</p>\n            <span class='dot'></span>\n        </div>\n    </div>\n</div>\n\n  \n\n<!--<div class='led-array'>-->\n<!--    <div ng-bind-html=\"msg.status\"></div>-->\n<!--    <span class='dot' style=\"background-color: {{ msg.color }}\"></span>-->\n<!--</div>-->",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": true,
         "templateScope": "local",
         "className": "",
-        "x": 790,
-        "y": 320,
+        "x": 1850,
+        "y": 480,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "a412ad04984d7a17",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "LED1 OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 360,
+        "wires": [
+            [
+                "62a1db8434c6973b"
+            ]
+        ]
+    },
+    {
+        "id": "98d3aad17043fc0e",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "LED1 ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 300,
+        "wires": [
+            [
+                "62a1db8434c6973b"
+            ]
+        ]
+    },
+    {
+        "id": "62a1db8434c6973b",
+        "type": "change",
+        "z": "2917deb43ef3170b",
+        "name": "SET LED1",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "LED1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 950,
+        "y": 340,
+        "wires": [
+            [
+                "3abdf2cd0e67f465"
+            ]
+        ]
+    },
+    {
+        "id": "a7bf8497854a8b69",
+        "type": "debug",
+        "z": "2917deb43ef3170b",
+        "name": "debug msg",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1390,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "3abdf2cd0e67f465",
+        "type": "led-trigger-node",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "x": 1200,
+        "y": 340,
+        "wires": [
+            [
+                "f0ce2b25298e4689",
+                "a7bf8497854a8b69"
+            ]
+        ]
+    },
+    {
+        "id": "f0ce2b25298e4689",
+        "type": "function",
+        "z": "2917deb43ef3170b",
+        "name": "LED1 Status",
+        "func": "if (msg.payload === 1)  {\n    status = \"ON\";\n    msg.color = \"lime\";\n} else {\n    status = \"OFF\";\n    msg.color = \"red\";\n}\n\nmsg.status = msg.topic + \": \" + status;\n    \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1390,
+        "y": 340,
+        "wires": [
+            [
+                "e74bee2a089bc1d8"
+            ]
+        ]
+    },
+    {
+        "id": "21ddbe6933690e43",
+        "type": "debug",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "d760f0b8800961d4",
+        "type": "debug",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1810,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "e74bee2a089bc1d8",
+        "type": "merge",
+        "z": "2917deb43ef3170b",
+        "name": "",
+        "timeout": "",
+        "x": 1630,
+        "y": 400,
+        "wires": [
+            [
+                "d760f0b8800961d4",
+                "df98bda01cc61c4e"
+            ]
         ]
     },
     {
