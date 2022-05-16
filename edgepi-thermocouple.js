@@ -23,7 +23,7 @@ module.exports = function(RED) {
                 node.error(RED._("edgepi-thermocouple:error:child.disconnected"), msg);
             }
             if (node.temperature) {
-                msg.payload = Number(node.temperature);
+                msg.payload = node.temperature;
                 send(msg);
             }
         }
@@ -44,7 +44,7 @@ module.exports = function(RED) {
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
             // data is an arrayBuffer object
-            node.temperature = data.toString()
+            node.temperature = parseFloat(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
 
