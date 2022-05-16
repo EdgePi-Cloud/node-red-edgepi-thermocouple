@@ -10,7 +10,7 @@ This node sets up a multiprocessing environment consisting of the following feat
 3. The parent process communicates with the child process, allowing the node in the parent process to receive temperature readings and display them in Node-RED.
 
 # Sample Flow and UI Dashboard using thermocouple node and led-trigger node
-This sample flow shows the thermocouple node being used to obtain temperature readings, which are then used along with the LED trigger node (https://github.com/osensa/node-red-edgepi-led-array) to toggle an EdgePi LED on/off. Here, the on/off temperature is 23.5 degrees Celsius.
-![image](https://user-images.githubusercontent.com/77416463/168665781-9a839a97-b3d2-43c3-abbe-896bff401972.png)
+This sample flow shows the thermocouple node being used to obtain temperature readings, which are then used along with the LED trigger node (https://github.com/osensa/node-red-edgepi-led-array) to toggle an EdgePi LED on/off. Here, the on/off temperature is 24.5 degrees Celsius.
+![image](https://user-images.githubusercontent.com/77416463/168688664-a7c5646e-a811-49d5-a6bd-0015b8b9d99d.png)
 
-![image](https://user-images.githubusercontent.com/77416463/168665854-7b7ae0b1-4735-44b6-a04f-9f2df7388c4b.png)
+![image](https://user-images.githubusercontent.com/77416463/168688751-14f4eef6-b45b-4bfd-a072-582adcf61c7d.png)
