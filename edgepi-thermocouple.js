@@ -66,9 +66,7 @@ module.exports = function(RED) {
             }
             else {
                 node.status({fill:"red",shape:"ring",text:"child process stopped before parent"});
-                node.log(`edgepi-thermocouple: child process exit code: ${code}`);
-                node.warn();(RED._(`edgepi-thermocouple:warning: childprocess disconnected 
-                with exitcode: ${code}`));
+                node.warn(RED._(`edgepi-thermocouple:warning: childprocess disconnected with exitcode: ${code}`));
             }
         });
 
