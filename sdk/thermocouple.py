@@ -27,6 +27,12 @@ def single_conversion(spi, cs):
     if linearized_TC_regs[1] & 0x80:
         linearized_TC_code -= 2**(LINEARIZED_TC_BITS - 1)
 
+    _logger.info(f'Cold Junction Regs: {cold_junction_regs}')
+    _logger.info(f'Linearized TC Regs: {linearized_TC_regs}')
+
+    _logger.info(f'Cold Junction Code--Raw: {cold_junction_code}')
+    _logger.info(f'Linearized TC Code--Raw: {linearized_TC_code}')
+
     _logger.info(f'Cold Junction Code: {cold_junction_code * (2**-6)}')
     _logger.info(f'Linearized TC Code: {linearized_TC_code * (2**-7)}')
 

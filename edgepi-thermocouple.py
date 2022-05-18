@@ -3,7 +3,7 @@ import logging
 from sdk.thermocouple import *
 
 _logger=logging.getLogger(__name__)
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.INFO)
 
 # arv[0] is this file's name, argv[1] should be numeric command
 if len(sys.argv) > 1:
