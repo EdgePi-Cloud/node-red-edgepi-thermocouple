@@ -56,7 +56,15 @@ module.exports = function(RED) {
                 node.error(RED._(`edgepi-thermocouple:error:childprocess-stderr: ${data}`));
         });
 
-        // handle exit from child process
+        /* 
+            This method handles close events emitted by the child process. On close,
+            a numeric exit code is passed by the child process to the parent through the argument code.
+
+            Exit Code: 0 -- child process exited with no error.
+            Exit Code: Non-zero --child process exited with error.
+
+            For a complete list of exit codes, please refer to https://node.readthedocs.io/en/latest/api/process/.
+         */
         node.child.on("close", function(code) {
             node.child = null;
             if (node.finished) {
@@ -66,7 +74,7 @@ module.exports = function(RED) {
             }
             else {
                 node.status({fill:"red",shape:"ring",text:"child process stopped before parent"});
-                node.warn(RED._(`edgepi-thermocouple:warning: childprocess disconnected with exitcode: ${code}`));
+                node.warn(RED._(`edgepi-thermocouple:warning: childprocess disconnected with exit code: ${code}`));
             }
         });
 
