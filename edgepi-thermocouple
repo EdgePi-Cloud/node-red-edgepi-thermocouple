@@ -8,9 +8,8 @@ VENVDIR=$BASEDIR/venv/
 if [ ! -d "$VENVDIR" ]; then
     $python_cmd -m venv $VENVDIR 
     echo "New venv created on your filesystem at $VENVDIR."
+    $VENVDIR/bin/python -m pip install -r $BASEDIR/requirements.txt
 fi
-
-$VENVDIR/bin/python -m pip install -r $BASEDIR/requirements.txt
 
 venv_path=$VENVDIR/bin/
 
