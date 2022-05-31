@@ -3,6 +3,17 @@
 # Using Node Red
 If Node-RED is not yet installed, please see instructions for installing Node-RED at https://github.com/osensa/node-red-edgepi-led-array.
 
+# Installing this node
+1. git clone this repository
+2. Change to project directory: $ cd node-red-edgepi-thermocouple
+3. Install dependencies: $ npm install
+4. Change to .node-red directory: $ cd ~/.node-red
+5. $ npm install path_to_project_directory
+
+# Troubleshooting
+* Note: upon being deployed, this node will run a bash executable to install Python module dependencies. The executable may not have the necessary file permissions to perform these operations. If an error related to file permissions is encountered, enter the following in the project directory, in order to give the bash script execute permission:
+    - `$ chmod +x edgepi-thermocouple`
+
 # About
 This node sets up a multiprocessing environment consisting of the following features:
 1. Node runs in parent process (where Node-RED is running), and receives as input an injected value. This injected value can be any value, its purpose is only to signal the Node to trigger a "sample temperature" command to the Python script running in the child process.
