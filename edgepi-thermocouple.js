@@ -33,7 +33,7 @@ module.exports = function(RED) {
         sampleCommand = 2;
         node.child = spawn(executablePath, [sampleCommand]);
 
-        // to-do: handle spawn error
+        // TO-DO: handle spawn error
         
         node.child ? node.status({fill:"green", shape:"ring", text:"connected to child"}) :
         node.status({fill:"red", shape:"ring", text:"connection to child failed"});
