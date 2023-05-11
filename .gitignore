@@ -133,4 +133,4 @@ dist
 *.pyc
 
 # venv
-venv/
+venv
