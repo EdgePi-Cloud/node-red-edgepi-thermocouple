@@ -43,8 +43,8 @@ module.exports = function(RED) {
 
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
-            // data is an arrayBuffer object
-            node.temperature = parseFloat(data);
+            // data is an arrayBuffer object; convert to string
+            node.temperature = Buffer.from(data).toString();
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
 
