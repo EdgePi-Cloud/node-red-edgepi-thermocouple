@@ -25,7 +25,7 @@ if len(sys.argv) > 1:
             cmd = input()
             # exit signal from parent process or user exit from child process
             if 'exit' in cmd or cmd == '0':
-                spi.close()
+                #spi.close()
                 sys.exit(0)
             elif cmd == '1':
                 #dump_regs(spi, cs_line_4)
@@ -53,8 +53,9 @@ if len(sys.argv) > 1:
             else:
                 print(f'Invalid cmd = {cmd}')
         except(EOFError, SystemExit):
-            if not spi is None:
-                spi.close()
+            #if not spi is None:
+                #spi.close()
+                #pass
             sys.exit(0)
 else:
     print("Number of commands must equal 2")
