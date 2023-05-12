@@ -35,12 +35,12 @@ module.exports = function(RED) {
             temp = Buffer.from(temp).toString();
             let cj_temp = "";
             let lin_temp = "";
-            let first_word = true;
+            let first_temp = true;
             // retrieve cold-junction temp and linearized temp as single strings
             for(let i = 0; i < temp.length; i++){
-                if(temp[i] == ',') first_word = false;
+                if(temp[i] == ',') first_temp = false;
                 if(parseInt(temp[i]) >= 0 && parseInt(temp[i]) <= 9 || temp[i] == '.'){
-                    if (first_word){
+                    if (first_temp){
                         cj_temp = cj_temp.concat(temp[i]);
                     }
                     else{
