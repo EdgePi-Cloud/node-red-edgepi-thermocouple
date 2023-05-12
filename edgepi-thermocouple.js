@@ -30,6 +30,7 @@ module.exports = function(RED) {
             }
         }
 
+        // TO-DO: make this more accurate
         function parse_temp_read(temp){
             // convert buffer to string
             temp = Buffer.from(temp).toString();
@@ -49,9 +50,7 @@ module.exports = function(RED) {
                 }
             }
             // convert strings to float and return as an array s.t (cold junction, linearized temp)
-            cj_temp = parseFloat(cj_temp);
-            lin_temp = parseFloat(lin_temp);
-            return [cj_temp,lin_temp];
+            return [parseFloat(cj_temp),parseFloat(lin_temp)];
         }
 
         // creates child process instance which will run command located at executablePath
@@ -69,7 +68,7 @@ module.exports = function(RED) {
 
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
-            // data is an arrayBuffer object; convert to string
+            // get temp read as array
             node.temperature = parse_temp_read(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
