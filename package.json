@@ -11,7 +11,7 @@
     "url": "git+https://github.com/osensa/node-red-edgepi-thermocouple.git"
   },
   "author": "flavius-t",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/osensa/node-red-edgepi-thermocouple/issues"
   },
