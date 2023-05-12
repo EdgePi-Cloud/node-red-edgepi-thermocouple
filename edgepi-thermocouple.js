@@ -1,3 +1,5 @@
+const { parse } = require('path');
+
 module.exports = function(RED) {
     const spawn = require('child_process').spawn;
 
@@ -33,7 +35,7 @@ module.exports = function(RED) {
         sampleCommand = 2;
         node.child = spawn(executablePath, [sampleCommand]);
 
-        // to-do: handle spawn error
+        // TO-DO: handle spawn error
         
         node.child ? node.status({fill:"green", shape:"ring", text:"connected to child"}) :
         node.status({fill:"red", shape:"ring", text:"connection to child failed"});
@@ -43,7 +45,8 @@ module.exports = function(RED) {
 
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
-            // data is an arrayBuffer object
+            // data is arrayBuffer object. Convert to float
+            // TO-DO make accurate buffer to float conversion
             node.temperature = parseFloat(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
