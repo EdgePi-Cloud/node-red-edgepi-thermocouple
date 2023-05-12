@@ -45,8 +45,9 @@ module.exports = function(RED) {
 
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
-            // data is arrayBuffer object
-            node.temperature = data;
+            // data is arrayBuffer object. Convert to float
+            // TO-DO make accurate buffer to float conversion
+            node.temperature = parseFloat(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
 
