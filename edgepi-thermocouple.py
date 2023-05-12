@@ -33,7 +33,7 @@ if len(sys.argv) > 1:
             elif cmd == '2':
                 #temp_reading = single_conversion(spi, cs_line_4)
                 edgepi_tc.set_config(conversion_mode=ConvMode.SINGLE)
-                temp_reading = edgepi_tc.single_sample()
+                temp_reading = edgepi_tc.single_sample()[1]
                 print(temp_reading)
             elif cmd == '3':
                 #disable_CJ(spi, cs_line_4)
