@@ -1,3 +1,5 @@
+const { parse } = require('path');
+
 module.exports = function(RED) {
     const spawn = require('child_process').spawn;
 
@@ -28,6 +30,30 @@ module.exports = function(RED) {
             }
         }
 
+        function parse_temp_read(temp){
+            // convert buffer to string
+            temp = Buffer.from(temp).toString();
+            let cj_temp = "";
+            let lin_temp = "";
+            let first_word = true;
+            // retrieve cold-junction temp and linearized temp as single strings
+            for(let i = 0; i < temp.length; i++){
+                if(temp[i] == ',') first_word = false;
+                if(parseInt(temp[i]) >= 0 && parseInt(temp[i]) <= 9 || temp[i] == '.'){
+                    if (first_word){
+                        cj_temp = cj_temp.concat(temp[i]);
+                    }
+                    else{
+                        lin_temp = lin_temp.concat(temp[i]);
+                    }
+                }
+            }
+            // convert strings to float and return as an array s.t (cold junction, linearized temp)
+            cj_temp = parseFloat(cj_temp);
+            lin_temp = parseFloat(lin_temp);
+            return [cj_temp,lin_temp];
+        }
+
         // creates child process instance which will run command located at executablePath
         // with the argument 2 (single-shot sample).
         sampleCommand = 2;
@@ -44,7 +70,7 @@ module.exports = function(RED) {
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
             // data is an arrayBuffer object; convert to string
-            node.temperature = Buffer.from(data).toString();
+            node.temperature = parse_temp_read(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
         });
 

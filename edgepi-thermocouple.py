@@ -13,7 +13,7 @@ if len(sys.argv) > 1:
         #dev = init_spi_dev()
         edgepi_tc = EdgePiTC()
     except ModuleNotFoundError as e:
-        _logger.error(f'Failed to load SPI modules: {e}')
+        _logger.error(f'Failed to load TC module: {e}')
         sys.exit(0)
     
     #spi = dev['spi']
@@ -52,7 +52,7 @@ if len(sys.argv) > 1:
                 pass
             else:
                 print(f'Invalid cmd = {cmd}')
-        except(EOFError, SystemExit):
+        except(EOFError, SystemExit, KeyboardInterrupt):
             #if not spi is None:
                 #spi.close()
                 #pass
