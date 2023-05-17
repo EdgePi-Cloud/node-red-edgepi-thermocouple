@@ -1,5 +1,3 @@
-const { parse } = require('path');
-
 module.exports = function(RED) {
     const spawn = require('child_process').spawn;
 
@@ -9,7 +7,6 @@ module.exports = function(RED) {
     function ThermocoupleNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
-
         function inputlistener(msg, send, done) {
             if (node.child != null) {
                 // send input to child process using stdin (Py script)
@@ -24,10 +21,8 @@ module.exports = function(RED) {
                 node.status({fill:"red", shape:"ring", text:"disconnected from child"});
                 node.error(RED._("edgepi-thermocouple:error:child.disconnected"), msg);
             }
-            if (node.temperature) {
-                msg.payload = node.temperature;
-                send(msg);
-            }
+            // save message to node
+            node.msg = msg;
         }
 
         // creates child process instance which will run command located at executablePath
@@ -46,10 +41,14 @@ module.exports = function(RED) {
         // listen to output from child process
         node.child.stdout.on('data', function (data) {
             // data is arrayBuffer object. Convert to float
-            // TO-DO make accurate buffer to float conversion
-            node.temperature = parseFloat(data);
+            let temperature = parseFloat(data);
             node.log(`edgepi-thermocouple: child output: ${data}`);
+            if (temperature) {
+                node.msg.payload = temperature;
+                node.send(node.msg);
+            }
         });
+
 
         node.child.stderr.on('data', function (data) {
             // Py logger prints to stderr
