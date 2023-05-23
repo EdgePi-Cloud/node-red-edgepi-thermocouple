@@ -1,6 +1,5 @@
 module.exports = function(RED) {
-    const spawn = require('child_process').spawn;
-
+    const zmq = require("zeromq")
     // file_path to edgepi-thermocouple bash script for passing commands to Python script
     const executablePath = __dirname + '/edgepi-thermocouple'
 
@@ -8,77 +7,32 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         const node = this;
         function inputlistener(msg, send, done) {
-            if (node.child != null) {
-                // send input to child process using stdin (Py script)
-                node.child.stdin.write(sampleCommand+"\n", () => {
-                    if (done) { done(); }
-                });
-                node.status({fill:"green", shape:"dot", text:"input to child sent"});
-                node.log(`edgepi-thermocouple: input to parent: ${msg.payload}`);
-            }
-            else {
-                // logs error to Node-RED's console.
-                node.status({fill:"red", shape:"ring", text:"disconnected from child"});
-                node.error(RED._("edgepi-thermocouple:error:child.disconnected"), msg);
-            }
-            // save message to node
-            node.msg = msg;
+            runClient(msg,send);
+            if(done) {done()};
         }
 
         // creates child process instance which will run command located at executablePath
         // with the argument 2 (single-shot sample).
-        sampleCommand = 2;
-        node.child = spawn(executablePath, [sampleCommand]);
 
-        // TO-DO: handle spawn error
-        
-        node.child ? node.status({fill:"green", shape:"ring", text:"connected to child"}) :
-        node.status({fill:"red", shape:"ring", text:"connection to child failed"});
+        async function runClient(msg,send)
+        {
+            const sock = new zmq.Request();
+            sock.connect("tcp://localhost:5555");
+            await sock.send("2");
+            let [result] = await sock.receive();
+            result = result.toString();
+            result = JSON.parse(result);
+            msg.payload = result;
+            send(msg
+                
+                
+                
+                );
+        }
 
         // called on input to this node
         node.on("input", inputlistener);
 
-        // listen to output from child process
-        node.child.stdout.on('data', function (data) {
-            // data is arrayBuffer object. Convert to float
-            let temperature = parseFloat(data);
-            node.log(`edgepi-thermocouple: child output: ${data}`);
-            if (temperature) {
-                node.msg.payload = temperature;
-                node.send(node.msg);
-            }
-        });
-
-
-        node.child.stderr.on('data', function (data) {
-            // Py logger prints to stderr
-            if (data.includes("INFO"))
-                node.log(data)
-            else
-                node.error(RED._(`edgepi-thermocouple:error:childprocess-stderr: ${data}`));
-        });
-
-        /* 
-            This method handles close events emitted by the child process. On close,
-            a numeric exit code is passed by the child process to the parent through the argument code.
-
-            Exit Code: 0 -- child process exited with no error.
-            Exit Code: Non-zero --child process exited with error.
-
-            For a complete list of exit codes, please refer to https://node.readthedocs.io/en/latest/api/process/.
-         */
-        node.child.on("close", function(code) {
-            node.child = null;
-            if (node.finished) {
-                node.finished();
-                node.log(`edgepi-thermocouple: child process exit code: ${code}`);
-                node.status({fill:"grey",shape:"ring",text:"child process closed."});
-            }
-            else {
-                node.status({fill:"red",shape:"ring",text:"child process stopped before parent"});
-                node.warn(RED._(`edgepi-thermocouple:warning: childprocess disconnected with exit code: ${code}`));
-            }
-        });
 
         // handle exit from parent process
         node.on("close", function(done) {
