@@ -16,18 +16,18 @@ module.exports = function(RED) {
 
         async function runClient(msg,send)
         {
+            // connect to socket
             const sock = new zmq.Request();
             sock.connect("tcp://localhost:5555");
+            // wait for message to send
             await sock.send("2");
+            // wait for response
             let [result] = await sock.receive();
+            // send to node-red flow
             result = result.toString();
             result = JSON.parse(result);
             msg.payload = result;
-            send(msg
-                
-                
-                
-                );
+            send(msg);
         }
 
         // called on input to this node
