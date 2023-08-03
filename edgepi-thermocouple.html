@@ -4,6 +4,7 @@
         color: '#a6bbcf',
         defaults: {
             name: { value:"" },
+            Method: { value: "singleSample"}
         },
         inputs:1,
         outputs:1,
@@ -19,6 +20,13 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label for="node-input-Method">Method</label>
+        <select id="node-input-Method">
+          <option value="singleSample">singleSample</option>
+          <option value="readTemperatures">readTemperatures</option>
+        </select>
+      </div>
 </script>
 
 <script type="text/html" data-help-name="edgepi-thermocouple-node">

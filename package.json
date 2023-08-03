@@ -1,33 +1,28 @@
 {
   "name": "node-red-edgepi-thermocouple",
   "version": "1.0.0",
-  "description": "a node for demonstrating use of Python scripts and libraries for implementing functionality. This node uses a Python script to interact with the RTU Thermocouple.",
+  "description": "A node-red node for EdgePi thermocouple module",
   "main": "edgepi-thermocouple.js",
+  "dependencies": {
+    
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/osensa/node-red-edgepi-thermocouple.git"
+    "url": "git+https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple.git"
   },
-  "author": "flavius-t",
+  "keywords": [
+    "edgepi",
+    "thermocouple",
+    "node-red"
+  ],
+  "author": "Isaac James",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/osensa/node-red-edgepi-thermocouple/issues"
+    "url": "https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple/issues"
   },
-  "node-red": {
-    "nodes": {
-      "edgepi-thermocouple": "edgepi-thermocouple.js"
-    }
-  },
-  "homepage": "https://github.com/osensa/node-red-edgepi-thermocouple#readme",
-  "devDependencies": {
-    "node-red": "^2.2.2"
-  },
-  "dependencies": {
-    "install": "^0.13.0",
-    "npm": "^9.6.7",
-    "protobufjs": "^7.2.3",
-    "zeromq": "^6.0.0-beta.16"
-  }
+  "homepage": "https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple#readme"
 }
