@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "node-red": {
+    "nodes": {
+      "edgepi-thermocouple": "edgepi-thermocouple.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple.git"
@@ -25,6 +30,6 @@
     "@edgepi-cloud/edgepi-rpc": "^1.0.1"
   },
   "devDependencies": {
-    "node-red": "^2.2.2"
+    "node-red": "^3.0.2"
   }
 }
