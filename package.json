@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "A node-red node for EdgePi thermocouple module",
   "main": "edgepi-thermocouple.js",
-  "dependencies": {
-    
-  },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple/issues"
   },
-  "homepage": "https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple#readme"
+  "homepage": "https://github.com/EdgePi-Cloud/node-red-edgepi-thermocouple#readme",
+  "dependencies": {
+    "@edgepi-cloud/edgepi-rpc": "^1.0.1"
+  },
+  "devDependencies": {
+    "node-red": "^2.2.2"
+  }
 }
