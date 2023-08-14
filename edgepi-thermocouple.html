@@ -7,7 +7,7 @@
 				transport: { value: "Local" },
 				tcpAddress: { value: "" },
 				tcpPort: { value: "" },
-				Method: { value: "singleSample"}
+				output: { value: "lin"}
 			},
 			inputs:1,
 			outputs:1,
@@ -87,10 +87,11 @@
     <input class="tcp-port-input" type="text" id="node-input-tcpPort" placeholder="Port">
   </div>
 	<div class="form-row">
-		<label for="node-input-Method">Method</label>
-		<select id="node-input-Method">
-			<option value="singleSample">singleSample</option>
-			<option value="readTemperatures">readTemperatures</option>
+		<label for="node-input-output">Output</label>
+		<select id="node-input-output">
+			<option value="lin">Linearized Temperature</option>
+			<option value="cj">Cold-Junction Temperature</option>
+			<option value="cj-lin">Cold-Junction & Linearized Temperature</option>
 		</select>
 	</div>
 </script>
