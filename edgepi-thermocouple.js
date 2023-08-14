@@ -4,18 +4,16 @@ module.exports = function(RED) {
     function ThermocoupleNode(config) {
         RED.nodes.createNode(this, config);
         const node = this;
+        const ipc_transport = "ipc:///tmp/edgepi.pipe"
+        const tcp_transport = `tcp://${config.tcpAddress}:${config.tcpPort}`
+        const transport = (config.transport === "Network") ? tcp_transport : ipc_transport;
         node.Method = config.Method;
-        console.log(node.Method)
+
         const tc = new rpc.TcService()
         this.on('input', async function (msg, send, done) {
             try{
-                if(node.Method){
-                    let temps = await tc[node.Method]();
-                    msg.payload = temps;
-                }
-                else{
-                    msg.payload = "Select a method for edgepi thermocouple"
-                }   
+                let temps = await tc[node.Method]();
+                msg.payload = temps;
             }
             catch(err) {
                 console.error(err);
