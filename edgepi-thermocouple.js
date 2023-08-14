@@ -10,21 +10,22 @@ module.exports = function(RED) {
         const transport = (config.transport === "Network") ? tcp_transport : ipc_transport;
 
         // Init new tc
-        const tc = new rpc.TcService()
+        const tc = new rpc.TcService(transport)
         if (tc){
             console.debug("Thermocouple node initialized on: ", transport);
-            node.status({fill:"green", shape:"ring", text:"d-out initialized"});
+            node.status({fill:"green", shape:"ring", text:"tc initialized"});
           }
 
         // Input event listener
         this.on('input', async function (msg, send, done) {
+            node.status({fill:"green", shape:"dot", text:"input recieved"});
             try{
                 let temps = await tc.singleSample();
                 if(config.output === 'cj-lin'){
                     msg.payload = temps
                 }
                 else{
-                    msg.payload = (config.output === 'cj') ? output[0] : output[1]
+                    msg.payload = (config.output === 'cj') ? temps[0] : temps[1]
                 } 
             }
             catch(err) {
