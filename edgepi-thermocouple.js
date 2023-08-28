@@ -38,14 +38,6 @@ module.exports = function(RED) {
                 done();
             }
         })
-
-
-        // handle exit
-        node.on("close", function(done) {
-            node.status({fill:"grey", shape:"ring", text:"tc terminated"});
-            
-             done();
-        });
     }
     RED.nodes.registerType("edgepi-thermocouple-node", ThermocoupleNode);
 }

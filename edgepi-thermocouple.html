@@ -97,5 +97,36 @@
 </script>
 
 <script type="text/html" data-help-name="edgepi-thermocouple-node">
-	<p>A node that handles handles passing commands to RTU Thermocoupler and displaying output</p>
+	<p>EdgePi thermocouple node that reads temperature on input received.</p>
+	<h3>Properties</h3>
+	<dl class="message-properties">
+		<dt> RPC Server</dt>
+		<dd>The connection to your EdgePi's RPC Server. </dd>
+		<dt >Output</dt>
+		<dd>What temperature reading(s) will be be sent out through the flow.</dd>
+	</dl>
+	<h3>Inputs</h3>
+		<dl class="message-properties">
+			Any message can be used to trigger this node.
+		</dl>
+	<h3>Outputs</h3>
+		<p>• When configured to read only linearized temperature:</p>
+		<dl class="message-properties">
+			<dt>payload <span class="property-type">number</span></dt>
+			<dd>regular temperature reading.</dd>
+		</dl>
+		<p>• When configured to read only cold junction temperature:</p>
+		<dl class="message-properties">
+			<dt>payload <span class="property-type">number</span></dt>
+			<dd>temperature reading of the cold junction sensor.</dd>
+		</dl>
+		<p>• When configured to read both cold junction and linearized temperature:</p>
+		<dl class="message-properties">
+			<dt>payload <span class="property-type">array[coldJunctionTemp, linearizedTemp]</span></dt>
+			<dd>an array containing both the cold junction and linearized temperature.</dd>
+		</dl>
+	<h3>References</h3>
+		<ul>
+			<li><a href="https://github.com/edgepi-cloud/node-red-edgepi-thermocouple">GitHub</a> -the node's github repository </li>
+		</ul>
 </script>
