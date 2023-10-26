@@ -32,12 +32,12 @@ module.exports = function(RED) {
                 console.error(err);
                 msg.payload = err;
             }
-            
+
             send(msg);
             if (done) {
                 done();
             }
         })
     }
-    RED.nodes.registerType("edgepi-thermocouple-node", ThermocoupleNode);
+    RED.nodes.registerType("thermocouple", ThermocoupleNode);
 }
