@@ -27,3 +27,7 @@ Any message can be used to trigger this node.
   
 - When configured to read both cold junction and linearized temperature:
   - **payload** *array[coldJunctionTemp, linearizedTemp]*: An array containing both the cold junction and linearized temperature.
+
+
+**NOTE:** Currently, EdgePi nodes are only available on x86 systems.
+
