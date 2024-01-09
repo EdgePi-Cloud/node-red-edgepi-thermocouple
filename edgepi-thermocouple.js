@@ -1,7 +1,28 @@
 module.exports = function (RED) {
   const rpc = require("@edgepi-cloud/edgepi-rpc");
 
-  function ThermocoupleNode(config) {
+  const initializeNode = (config) => {
+    const transport =
+      config.transport === "Network"
+        ? `tcp://${config.tcpAddress}:${config.tcpPort}`
+        : "ipc:///tmp/edgepi.pipe";
+
+    try {
+      const tc = new rpc.TcService(transport);
+      console.debug("Thermocouple node initialized on: ", transport);
+      node.status({ fill: "green", shape: "ring", text: "tc initialized" });
+      return tc;
+    } catch (error) {
+      console.error(error);
+      node.status({
+        fill: "red",
+        shape: "ring",
+        text: "Initialization error.",
+      });
+    }
+  };
+
+  const ThermocoupleNode = (config) => {
     RED.nodes.createNode(this, config);
     const node = this;
     let output = config.output;
@@ -10,7 +31,7 @@ module.exports = function (RED) {
       this.on("input", async function (msg, send, done) {
         node.status({ fill: "green", shape: "dot", text: "input recieved" });
         try {
-          output = msg.payload ?? output;
+          output = msg.payload || output;
           let temps = await tc.singleSample();
           if (output === "cj-lin") {
             msg.payload = temps;
@@ -26,27 +47,6 @@ module.exports = function (RED) {
         done?.();
       });
     });
-
-    async function initializeNode(config) {
-      const transport =
-        config.transport === "Network"
-          ? `tcp://${config.tcpAddress}:${config.tcpPort}`
-          : "ipc:///tmp/edgepi.pipe";
-
-      try {
-        const tc = new rpc.TcService(transport);
-        console.debug("Thermocouple node initialized on: ", transport);
-        node.status({ fill: "green", shape: "ring", text: "tc initialized" });
-        return tc;
-      } catch (error) {
-        console.error(error);
-        node.status({
-          fill: "red",
-          shape: "ring",
-          text: "Initialization error.",
-        });
-      }
-    }
-  }
+  };
   RED.nodes.registerType("thermocouple", ThermocoupleNode);
 };
