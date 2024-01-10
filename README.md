@@ -24,9 +24,4 @@ Any message can be used to trigger this node.
 
 ### Outputs
 
-- When configured to read only linearized temperature:
-  - **payload** _number_: Regular temperature reading.
-- When configured to read only cold junction temperature:
-  - **payload** _number_: Temperature reading of the cold junction sensor.
-- When configured to read both cold junction and linearized temperature:
-  - **payload** _array[coldJunctionTemp, linearizedTemp]_: An array containing both the cold junction and linearized temperature.
+- **payload** _number_: TC temperature reading.

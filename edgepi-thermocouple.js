@@ -33,10 +33,13 @@ module.exports = function (RED) {
         try {
           output = msg.payload || output;
           let temps = await tc.singleSample();
-          if (output === "cj-lin") {
+          // if (output === "cj-lin") {
+          //   msg.payload = temps;
+          // } else {
+          //   msg.payload = output === "cj" ? temps[0] : temps[1];
+          // }
+          if (output === "lin") {
             msg.payload = temps;
-          } else {
-            msg.payload = output === "cj" ? temps[0] : temps[1];
           }
         } catch (err) {
           console.error(err);
