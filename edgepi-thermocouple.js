@@ -12,7 +12,7 @@ module.exports = function (RED) {
         try {
           output = msg.payload || output;
           let temps = await tc.singleSample();
-          msg.payload = temps[0];
+          msg.payload = temps[1];
         } catch (err) {
           console.error(err);
           msg.payload = err;
