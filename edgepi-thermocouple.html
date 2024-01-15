@@ -1,132 +1,129 @@
 <script type="text/javascript">
-	RED.nodes.registerType('thermocouple',{
-			category: 'EdgePi',
-			color: '#f391aa',
-			defaults: {
-				name: { value:"" },
-				transport: { value: "Local" },
-				tcpAddress: { value: "" },
-				tcpPort: { value: "" },
-				output: { value: "lin"},
-			},
-			inputs:1,
-			outputs:1,
-			icon: "font-awesome/fa-thermometer-2",
-			label: function() {
-					return this.name||"thermocouple";
-			},
-			oneditprepare: function(){
-      // Query html elements
-      const configTransportSelect = document.getElementById("node-input-transport");
-      const tcpField = document.querySelector(".form-row.tcp")
+  RED.nodes.registerType("thermocouple", {
+    category: "EdgePi",
+    color: "#f391aa",
+    defaults: {
+      name: { value: "" },
+      transport: { value: "Local" },
+      tcpAddress: { value: "" },
+      tcpPort: { value: "" },
+      output: { value: "lin" },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-thermometer-2",
+    label: function () {
+      return this.name || "thermocouple";
+    },
+    oneditprepare: function () {
+      const configTransportSelect = document.getElementById(
+        "node-input-transport"
+      );
+      const tcpField = document.querySelector(".form-row.tcp");
 
-      function updateEditor(){
-				if(configTransportSelect.value === "Network"){
-					tcpField.style.display = "flex";
-				} else {
-					tcpField.style.display = "none";
-				}
+      function updateEditor() {
+        if (configTransportSelect.value === "Network") {
+          tcpField.style.display = "flex";
+        } else {
+          tcpField.style.display = "none";
+        }
       }
-      // Update and add event listener to update on user input
-      updateEditor()
+      updateEditor();
       configTransportSelect.addEventListener("change", updateEditor);
-  }
-	});
+    },
+  });
 </script>
 
 <script type="text/html" data-template-name="thermocouple">
+  <style>
+    * {
+      box-sizing: border-box !important;
+    }
 
-	<style>
-		*{
-			box-sizing: border-box !important;
-		}
+    .form-row {
+      display: flex;
+      align-items: center;
+    }
 
-		.form-row{
-			display: flex;
-			align-items: center;
-		}
+    .form-row > label {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
 
-		.form-row>label{
-			margin-top: auto; margin-bottom: auto;
-		}
+    .form-row.tcp {
+      flex-direction: row;
+      align-items: center;
+      margin-top: -5px;
+      margin-bottom: 10px;
+    }
 
-		.form-row.tcp {
-			flex-direction: row;
-			align-items: center;
-			margin-top: -5px; margin-bottom: 10px;
-		}
+    .tcp-address-input {
+      width: 160px !important;
+      margin-left: 100px !important;
+    }
+    .tcp-port-input {
+      width: 60px !important;
+    }
 
-		.tcp-address-input{
-			width: 160px !important;
-			margin-left: 100px !important;
-		}
-		.tcp-port-input{
-			width: 60px !important;
-		}
+    .tcp-port-label {
+      width: 5px !important;
+      margin: auto 5px;
+    }
+  </style>
 
-		.tcp-port-label{
-			width: 5px !important;
-			margin: auto 5px;
-		}
-	</style>
-	
-	<div class="form-row">
-		<label for="node-input-name"><i class="fa fa-tag"></i> Name:</label>
-		<input type="text" id="node-input-name" placeholder="Name">
-	</div>
-	<div class="form-row transport">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name:</label>
+    <input type="text" id="node-input-name" placeholder="Name" />
+  </div>
+  <div class="form-row transport">
     <label for="node-input-transport">RPC Server:</label>
     <select id="node-input-transport">
       <option value="Local">Local</option>
       <option value="Network">Network</option>
     </select>
   </div>
-  <div class="form-row tcp" >
-    <input class ="tcp-address-input" type="text" id="node-input-tcpAddress" placeholder="IP Address/ Hostname">
+  <div class="form-row tcp">
+    <input
+      class="tcp-address-input"
+      type="text"
+      id="node-input-tcpAddress"
+      placeholder="IP Address/ Hostname"
+    />
     <label class="tcp-port-label" for="node-input-tcpPort">:</label>
-    <input class="tcp-port-input" type="text" id="node-input-tcpPort" placeholder="Port">
+    <input
+      class="tcp-port-input"
+      type="text"
+      id="node-input-tcpPort"
+      placeholder="Port"
+    />
   </div>
-	<div class="form-row">
-		<label for="node-input-output">Output (&deg;C):</label>
-		<select id="node-input-output">
-			<option value="lin">Linearized Temperature</option>
-			<option value="cj">Cold-Junction Temperature</option>
-			<option value="cj-lin">Cold-Junction & Linearized Temperature</option>
-		</select>
-	</div>
 </script>
 
 <script type="text/html" data-help-name="thermocouple">
-	<p>Reads the temperature from a thermocouple connected to the EdgePi.</p>
-	<h3>Properties</h3>
-	<dl class="message-properties">
-		<dt> RPC Server</dt>
-		<dd>The connection to your EdgePi's RPC Server. </dd>
-		<dt >Output</dt>
-		<dd>What temperature reading(s) will be be sent out through the flow.</dd>
-	</dl>
-	<h3>Inputs</h3>
-		<dl class="message-properties">
-			Any message can be used to trigger this node.
-		</dl>
-	<h3>Outputs</h3>
-		<p>• When configured to read only linearized temperature:</p>
-		<dl class="message-properties">
-			<dt>payload <span class="property-type">number</span></dt>
-			<dd>regular temperature reading.</dd>
-		</dl>
-		<p>• When configured to read only cold junction temperature:</p>
-		<dl class="message-properties">
-			<dt>payload <span class="property-type">number</span></dt>
-			<dd>temperature reading of the cold junction sensor.</dd>
-		</dl>
-		<p>• When configured to read both cold junction and linearized temperature:</p>
-		<dl class="message-properties">
-			<dt>payload <span class="property-type">array[coldJunctionTemp, linearizedTemp]</span></dt>
-			<dd>an array containing both the cold junction and linearized temperature.</dd>
-		</dl>
-	<h3>References</h3>
-		<ul>
-			<li><a href="https://github.com/edgepi-cloud/node-red-edgepi-thermocouple">GitHub</a> -the node's github repository </li>
-		</ul>
+  <p>Reads the temperature from a thermocouple connected to the EdgePi.</p>
+  <h3>Properties</h3>
+  <dl class="message-properties">
+    <dt>RPC Server</dt>
+    <dd>The connection to your EdgePi's RPC Server.</dd>
+    <dt>Output</dt>
+    <dd>What temperature reading(s) will be be sent out through the flow.</dd>
+  </dl>
+  <h3>Inputs</h3>
+  <dl class="message-properties">
+    <dd>Any message can be used to trigger this node.</dd>
+  </dl>
+  <h3>Outputs</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">number</span></dt>
+    <dd>TC temperature reading.</dd>
+  </dl>
+  <h3>References</h3>
+  <ul>
+    <li>
+      <a href="https://github.com/edgepi-cloud/node-red-edgepi-thermocouple"
+        >GitHub</a
+      >
+      -the node's github repository
+    </li>
+  </ul>
 </script>
