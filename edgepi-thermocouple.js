@@ -4,13 +4,11 @@ module.exports = function (RED) {
   function ThermocoupleNode(config) {
     RED.nodes.createNode(this, config);
     const node = this;
-    let output = config.output;
 
     initializeNode(config).then((tc) => {
       this.on("input", async function (msg, send, done) {
         node.status({ fill: "green", shape: "dot", text: "input received" });
         try {
-          output = msg.payload || output;
           let temps = await tc.singleSample();
           msg.payload = temps[1];
         } catch (err) {
