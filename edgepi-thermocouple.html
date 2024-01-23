@@ -7,7 +7,6 @@
       transport: { value: "Local" },
       tcpAddress: { value: "" },
       tcpPort: { value: "" },
-      output: { value: "lin" },
     },
     inputs: 1,
     outputs: 1,
@@ -16,20 +15,18 @@
       return this.name || "thermocouple";
     },
     oneditprepare: function () {
-      const configTransportSelect = document.getElementById(
-        "node-input-transport"
-      );
-      const tcpField = document.querySelector(".form-row.tcp");
+      const transportType = document.getElementById("node-input-transport");
+      const tcpTransportInputs = document.querySelector(".form-row.tcp");
 
       function updateEditor() {
-        if (configTransportSelect.value === "Network") {
-          tcpField.style.display = "flex";
+        if (transportType.value === "Network") {
+          tcpTransportInputs.style.display = "flex";
         } else {
-          tcpField.style.display = "none";
+          tcpTransportInputs.style.display = "none";
         }
       }
       updateEditor();
-      configTransportSelect.addEventListener("change", updateEditor);
+      transportType.addEventListener("change", updateEditor);
     },
   });
 </script>
@@ -104,7 +101,11 @@
   <h3>Properties</h3>
   <dl class="message-properties">
     <dt>RPC Server</dt>
-    <dd>The connection to your EdgePi's RPC Server.</dd>
+    <dd>
+      The connection to your EdgePi's RPC Server. Use <strong>Local</strong> if
+      node-red is running on EdgePi. Otherwise use the
+      <strong>Network</strong> option and enter EdgePi's IP address / Hostname.
+    </dd>
     <dt>Output</dt>
     <dd>What temperature reading(s) will be be sent out through the flow.</dd>
   </dl>
