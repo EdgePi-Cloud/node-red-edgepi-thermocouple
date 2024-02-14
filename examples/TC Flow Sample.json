@@ -1,0 +1,60 @@
+[
+    {
+        "id": "ac9e385e03d5d945",
+        "type": "debug",
+        "z": "aa7eb918109cfafe",
+        "name": "debug TC output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1fab3004d13f0909",
+        "type": "thermocouple",
+        "z": "aa7eb918109cfafe",
+        "name": "",
+        "transport": "Local",
+        "tcpAddress": "",
+        "tcpPort": "5555",
+        "x": 380,
+        "y": 260,
+        "wires": [
+            [
+                "ac9e385e03d5d945"
+            ]
+        ]
+    },
+    {
+        "id": "d8d957878fedf09b",
+        "type": "inject",
+        "z": "aa7eb918109cfafe",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "1fab3004d13f0909"
+            ]
+        ]
+    }
+]
